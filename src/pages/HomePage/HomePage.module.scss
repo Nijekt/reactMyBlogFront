@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .sidebar {
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .tags,
+    .comments {
+      // border: 1px solid black;
+      padding: 20px;
+      background-color: #fff;
+
+      &__list {
+        padding-top: 10px;
+      }
+    }
+
+    ul {
+      list-style-type: none;
+    }
+  }
+}
