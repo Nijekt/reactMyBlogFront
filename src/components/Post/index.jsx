@@ -34,7 +34,7 @@ const Post = ({
 
         <h6 className={classnames(styles.color, styles.tags)}>
           {tags.map((obj) => (
-            <>#{obj} </>
+            <>{obj ? "#" + obj : []} </>
           ))}
         </h6>
         <div className={styles.counters}>

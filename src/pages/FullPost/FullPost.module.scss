@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  //   background-color: #fff;
+
+  .block {
+    background-color: #fff;
+  }
+  .img__banner {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+  .title {
+    font-weight: 900;
+  }
+  .text {
+    font-weight: 400;
+  }
+  .counters {
+    display: flex;
+    gap: 20px;
+    color: #9b9b9b;
+
+    span {
+      display: flex;
+      gap: 5px;
+    }
+    .nums {
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .icon {
+      width: 16px;
+      height: auto;
+    }
+  }
+
+  .comments {
+    margin-top: 20px;
+    padding: 20px;
+  }
+}
