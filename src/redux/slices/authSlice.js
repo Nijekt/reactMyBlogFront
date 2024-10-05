@@ -5,7 +5,6 @@ export const fetchRegister = createAsyncThunk(
   "auth/fetchRegister",
   async (params) => {
     const { data } = await axios.post("auth/register", params);
-    console.log(data);
     return data;
   }
 );
@@ -16,7 +15,6 @@ export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
 });
 export const fetchAuth = createAsyncThunk("auth/fetchAuth", async (params) => {
   const { data } = await axios.post("auth/login", params);
-  console.log(data);
   return data;
 });
 
@@ -39,8 +37,15 @@ const authSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(fetchRegister.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.status = "loaded";
+      // state.data = action.payload;
+      // state.status = "loaded";
+      if (action.payload.token) {
+        state.data = action.payload;
+        state.status = "loaded";
+      } else {
+        state.data = null;
+        state.status = "error";
+      }
     });
     builder.addCase(fetchRegister.rejected, (state, action) => {
       state.data = null;
@@ -55,7 +60,7 @@ const authSlice = createSlice({
       state.status = "loaded";
     });
     builder.addCase(fetchAuth.rejected, (state, action) => {
-      state.data = action.payload;
+      state.data = null;
       state.status = "error";
     });
     builder.addCase(fetchAuthMe.pending, (state) => {
@@ -67,7 +72,7 @@ const authSlice = createSlice({
       state.status = "loaded";
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
-      state.data = action.payload;
+      state.data = null;
       state.status = "error";
     });
   },

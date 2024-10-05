@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./FullPost.module.scss";
 import viewsCountImg from "../../assets/viewsCount.svg";
-import commentsCount from "../../assets/commentsCount.svg";
+import commentsCountImg from "../../assets/commentsCount.svg";
 import classNames from "classnames";
 import CommentsBlock from "../../components/CommentsBlock/index.jsx";
 import AddComment from "../../components/AddComment/index.jsx";
@@ -43,25 +43,25 @@ const FullPost = () => {
                 alt=""
               />
             )}
-
-            <h3>{data.user.fullName}</h3>
-            <h6>{data.createdAt}</h6>
-            <h1 className={styles.title}>{data.title}</h1>
-            <h6 className={styles.tags}>
-              {data.tags ? data.tags.join(",") : ""}
-            </h6>
-            <h2 className={styles.text}> {data.text}</h2>
-
-            <div className={styles.counters}>
-              <span>
-                <img src={viewsCountImg} alt="" className={styles.icon} />
-                <span className={styles.nums}> {data.viewsCount}</span>
-              </span>
-              <span>
-                <img src={commentsCount} alt="" className={styles.icon} />
-                <span className={styles.nums}> {0}</span>
-              </span>
-            </div>
+            <article className={styles.post__description}>
+              <h3>{data.user.fullName}</h3>
+              <h6>{data.createdAt}</h6>
+              <h1 className={styles.title}>{data.title}</h1>
+              <h6 className={styles.tags}>
+                {data.tags ? data.tags.join(",") : ""}
+              </h6>
+              <h2 className={styles.text}> {data.text}</h2>
+              <div className={styles.counters}>
+                <span>
+                  <img src={viewsCountImg} alt="" className={styles.icon} />
+                  <span className={styles.nums}> {data.viewsCount}</span>
+                </span>
+                <span>
+                  <img src={commentsCountImg} alt="" className={styles.icon} />
+                  <span className={styles.nums}> {data.commentsCount}</span>
+                </span>
+              </div>
+            </article>
           </section>
           <br />
           <article className={classNames(styles.comments, styles.block)}>

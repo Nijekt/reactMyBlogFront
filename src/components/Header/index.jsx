@@ -6,6 +6,7 @@ import { isAuthSelector, logout } from "../../redux/slices/authSlice";
 
 const Header = () => {
   const isAuth = useSelector(isAuthSelector);
+  const data = useSelector((state) => state.auth.data);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -25,6 +26,9 @@ const Header = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
+                <NavLink to={`/user/${data._id}`}>
+                  <button className={styles.button}>Profile</button>
+                </NavLink>{" "}
                 <NavLink to={"/addpost"}>
                   <button className={styles.button}>Write post</button>
                 </NavLink>{" "}

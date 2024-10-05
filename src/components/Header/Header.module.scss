@@ -32,14 +32,15 @@
       :nth-child(1) {
         width: 100px;
         background-color: rgb(0, 0, 207);
+        border-radius: 5px;
       }
-      :nth-child(2) {
+      :nth-child(3) {
         background-color: rgb(207, 0, 0);
+        border-radius: 5px;
       }
 
       .button {
         cursor: pointer;
-        border-radius: 5px;
         color: #fff;
         font-weight: 500;
         padding: 10px;

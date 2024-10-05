@@ -4,6 +4,26 @@
   margin-bottom: 30px;
   overflow: hidden;
   background-color: #fff;
+  position: relative;
+  &:hover {
+    .post__edit {
+      opacity: 1;
+    }
+  }
+  &__edit {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    opacity: 0;
+    right: 5px;
+    top: 5px;
+    .icon {
+      width: 22px;
+      height: auto;
+      cursor: pointer;
+    }
+  }
+
   .color {
     color: #9b9b9b;
   }
@@ -16,28 +36,91 @@
 
   &__info {
     padding: 20px;
-    .tags,
-    .title,
-    .date {
-      margin-bottom: 5px;
-    }
-    .counters {
-      display: flex;
-      gap: 20px;
-      color: #9b9b9b;
+    display: grid;
+    grid-template-columns: 0.05fr 1fr;
+    grid-column-gap: 10px;
 
-      span {
+    .img__wrapper {
+      grid-area: 1 / 1 / 2 / 3;
+      .user__img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+    }
+    .post__wrapper {
+      grid-area: 1 / 2 / 2 / 3;
+      .tags,
+      .title,
+      .date {
+        margin-bottom: 5px;
+      }
+      .user__img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+      .wrapper {
         display: flex;
-        gap: 5px;
+        gap: 10px;
+        align-items: center;
       }
-      .nums {
-        font-size: 12px;
-        font-weight: 700;
+      .counters {
+        display: flex;
+        gap: 20px;
+        color: #9b9b9b;
+
+        span {
+          display: flex;
+          gap: 5px;
+        }
+        .nums {
+          font-size: 12px;
+          font-weight: 700;
+        }
+        .icon {
+          width: 16px;
+          height: auto;
+        }
       }
-      .icon {
-        width: 16px;
-        height: auto;
-      }
+    }
+    // .tags,
+    // .title,
+    // .date {
+    //   margin-bottom: 5px;
+    // }
+    // .user__img {
+    //   width: 30px;
+    //   height: 30px;
+    //   border-radius: 50%;
+    // }
+    // .wrapper {
+    //   display: flex;
+    //   gap: 10px;
+    //   align-items: center;
+    // }
+    // .counters {
+    //   display: flex;
+    //   gap: 20px;
+    //   color: #9b9b9b;
+
+    //   span {
+    //     display: flex;
+    //     gap: 5px;
+    //   }
+    //   .nums {
+    //     font-size: 12px;
+    //     font-weight: 700;
+    //   }
+    //   .icon {
+    //     width: 16px;
+    //     height: auto;
+    //   }
+    // }
+  }
+  &:hover {
+    .post__edit {
+      opacity: 1;
     }
   }
 }

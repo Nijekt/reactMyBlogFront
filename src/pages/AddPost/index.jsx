@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "../../axios.js";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isAuthSelector } from "../../redux/slices/authSlice.js";
 
@@ -12,7 +12,9 @@ const AddPost = () => {
   const [imageUrl, setImageUrl] = useState("");
   const inputFileRef = useRef(null);
   const navigate = useNavigate();
+  const { id } = useParams();
 
+  const isEditable = Boolean(id);
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
@@ -39,20 +41,38 @@ const AddPost = () => {
         text,
       };
 
-      const { data } = await axios.post("posts", fields);
+      const { data } = isEditable
+        ? await axios.patch(`posts/${id}`, fields)
+        : await axios.post("posts", fields);
 
-      const id = data._id;
+      const _id = isEditable ? id : data._id;
 
-      navigate(`/posts/${id}`);
-    } catch (error) {}
+      navigate(`/posts/${_id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`posts/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title);
+          setTags(data.tags);
+          setText(data.text);
+          setImageUrl(data.imageUrl);
+        })
+        .catch((error) => console.warn(error));
+    }
+  }, []);
 
   if (!isAuth) {
     return <Navigate to={"/login"} replace={true} />;
     // navigate("/login");
   }
 
-  console.log(isAuth);
+  // console.log(isAuth);
 
   return (
     <div>

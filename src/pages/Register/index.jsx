@@ -46,7 +46,7 @@ const Register = () => {
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
     } else {
-      alert("errrrr");
+      alert("Can not register account");
     }
 
     if (!data.payload) {

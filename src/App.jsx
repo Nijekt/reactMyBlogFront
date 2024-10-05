@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import styles from "./App.module.scss";
 import AddPost from "./pages/AddPost";
 import FullPost from "./pages/FullPost";
+import UserPage from "./pages/UserPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/addpost" element={<AddPost />} />
+            <Route path="/addpost/:id/edit" element={<AddPost />} />
             <Route path="/posts/:id" element={<FullPost />} />
+            <Route path="/user/:id" element={<UserPage />} />
           </Routes>
         </div>
       </div>

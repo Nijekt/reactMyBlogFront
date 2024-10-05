@@ -18,6 +18,16 @@
         padding-top: 10px;
       }
     }
+    .comments__list__item {
+      display: flex;
+      gap: 5px;
+      .user__img {
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        background-color: black;
+      }
+    }
 
     ul {
       list-style-type: none;

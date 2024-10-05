@@ -9,10 +9,24 @@ export const fetchComments = createAsyncThunk(
     return data;
   }
 );
+export const fetchLastComments = createAsyncThunk(
+  "comments/fetchLastComments",
+  async () => {
+    const { data } = await axios.get(`comments/last`);
+    console.log("coms by post", data);
+    return data;
+  }
+);
 
 const initialState = {
-  items: [],
-  status: "loading",
+  comments: {
+    items: [],
+    status: "loading",
+  },
+  lastComs: {
+    items: [],
+    status: "loading",
+  },
 };
 
 const commentsSlice = createSlice({
@@ -21,15 +35,24 @@ const commentsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchComments.pending, (state) => {
-      state.status = "loading";
+      state.comments.status = "loading";
     });
     builder.addCase(fetchComments.fulfilled, (state, action) => {
-      state.status = "loaded";
-      state.items = action.payload;
+      state.comments.status = "loaded";
+      state.comments.items = action.payload;
     });
-    builder.addCase(fetchComments.rejected, (state, action) => {
-      state.status = "error";
-      state.items = action.payload;
+    builder.addCase(fetchComments.rejected, (state) => {
+      state.comments.status = "error";
+    });
+    builder.addCase(fetchLastComments.pending, (state) => {
+      state.lastComs.status = "loading";
+    });
+    builder.addCase(fetchLastComments.fulfilled, (state, action) => {
+      state.lastComs.status = "loaded";
+      state.lastComs.items = action.payload;
+    });
+    builder.addCase(fetchLastComments.rejected, (state) => {
+      state.lastComs.status = "error";
     });
   },
 });

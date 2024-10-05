@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchComments } from "../../redux/slices/commentsSlice.js";
 const AddComment = () => {
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -15,6 +15,7 @@ const AddComment = () => {
     try {
       const { data } = await axios.post(`comments/${id}`, { text });
       dispatch(fetchComments(id));
+
       setText("");
       console.log(data);
     } catch (error) {

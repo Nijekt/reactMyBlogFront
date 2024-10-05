@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios.js";
+import { act } from "react";
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const { data } = await axios.get("posts/getAll");
@@ -9,6 +10,11 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
 export const fetchTags = createAsyncThunk("posts/fetchTags", async () => {
   const { data } = await axios.get("tags");
   console.log(data);
+  return data;
+});
+
+export const removePost = createAsyncThunk("posts/removePost", async (id) => {
+  const { data } = await axios.delete(`posts/${id}`);
   return data;
 });
 
@@ -49,6 +55,18 @@ const postsSlice = createSlice({
     builder.addCase(fetchTags.rejected, (state) => {
       state.tags.status = "error";
       state.tags.items = action.payload;
+    });
+    builder.addCase(removePost.pending, (state) => {
+      state.tags.status = "loading";
+    });
+    builder.addCase(removePost.fulfilled, (state, action) => {
+      state.tags.status = "loaded";
+      state.posts.items = state.posts.items.filter(
+        (post) => post._id !== action.meta.arg
+      );
+    });
+    builder.addCase(removePost.rejected, (state) => {
+      state.tags.status = "error";
     });
   },
 });
