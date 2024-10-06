@@ -65,7 +65,7 @@ const UserPage = () => {
           hidden
         />
         <div className={styles.user__info}>
-          <div className={styles.fullName}>{user.userData.fullName}</div>
+          <h2 className={styles.fullName}>{user.userData.fullName}</h2>
           <div className={styles.email}>{user.userData.email}</div>
           <div className={styles.email}>{user.userData.createdAt}</div>
         </div>
@@ -83,7 +83,7 @@ const UserPage = () => {
             createdAt={obj.createdAt}
             user={obj.user}
             imageUrl={`http://localhost:4444${obj.imageUrl}`}
-            isEditable={getAuth?._id === obj.user}
+            isEditable={getAuth?._id === obj.user._id}
           />
         ))}
       </div>

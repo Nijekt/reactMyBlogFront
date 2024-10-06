@@ -8,6 +8,7 @@ const CommentsBlock = () => {
   console.log(items);
   return (
     <div className={styles.comments__block}>
+      <h2>Comments</h2>
       {status == "loading"
         ? ""
         : items.map((com) => (
@@ -27,7 +28,7 @@ const CommentsBlock = () => {
               )}
 
               <div className={styles.comment__info}>
-                <div className="user__fullName">{com.user?.fullName}</div>
+                <h4 className="user__fullName">{com.user?.fullName}</h4>
                 {com.text}
               </div>
             </div>

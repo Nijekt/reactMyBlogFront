@@ -1,5 +1,6 @@
 .post {
-  border: 1px solid black;
+  border: 1px solid rgba(220, 220, 220, 0.651);
+  border-radius: 15px;
   width: 700px;
   margin-bottom: 30px;
   overflow: hidden;
@@ -20,6 +21,9 @@
     .icon {
       width: 22px;
       height: auto;
+      background-color: #fff;
+      border: 0.2px solid rgb(163, 163, 163);
+      border-radius: 3px;
       cursor: pointer;
     }
   }

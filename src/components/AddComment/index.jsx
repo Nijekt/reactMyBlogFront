@@ -28,11 +28,14 @@ const AddComment = () => {
     <div className={styles.form}>
       <input
         type="text"
-        className="comment__input"
+        placeholder="Add comment"
+        className={styles.comment__input}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button onClick={onSubmit}>Send</button>
+      <button className={styles.send} onClick={onSubmit}>
+        Send
+      </button>
     </div>
   );
 };

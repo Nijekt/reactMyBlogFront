@@ -1,12 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios.js";
-import { act } from "react";
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const { data } = await axios.get("posts/getAll");
-  console.log(data);
-  return data;
-});
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (tag = "") => {
+    const { data } = await axios.get(`posts/getAll${tag ? `?tag=${tag}` : ""}`);
+    console.log(data);
+    return data;
+  }
+);
+export const fetchPostsByViews = createAsyncThunk(
+  "posts/fetchPostsByViews",
+  async (tag = "") => {
+    const { data } = await axios.get(
+      `posts/getAllByViews${tag ? `?tag=${tag}` : ""}`
+    );
+    console.log(data);
+    return data;
+  }
+);
 export const fetchTags = createAsyncThunk("posts/fetchTags", async () => {
   const { data } = await axios.get("tags");
   console.log(data);
@@ -42,6 +54,17 @@ const postsSlice = createSlice({
       state.posts.items = action.payload;
     });
     builder.addCase(fetchPosts.rejected, (state) => {
+      state.posts.status = "error";
+      state.posts.items = action.payload;
+    });
+    builder.addCase(fetchPostsByViews.pending, (state) => {
+      state.posts.status = "loading";
+    });
+    builder.addCase(fetchPostsByViews.fulfilled, (state, action) => {
+      state.posts.status = "loaded";
+      state.posts.items = action.payload;
+    });
+    builder.addCase(fetchPostsByViews.rejected, (state) => {
       state.posts.status = "error";
       state.posts.items = action.payload;
     });

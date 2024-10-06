@@ -1,6 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+
   //   background-color: #fff;
 
   .block {
@@ -8,6 +9,10 @@
 
     .post__description {
       padding: 20px;
+
+      .tags {
+        color: #9b9b9b;
+      }
     }
   }
   .img__banner {
@@ -20,6 +25,10 @@
   }
   .text {
     font-weight: 400;
+
+    li {
+      margin-left: 20px;
+    }
   }
   .counters {
     display: flex;

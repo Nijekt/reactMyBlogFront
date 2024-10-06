@@ -1,27 +1,71 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, fetchTags } from "../../redux/slices/postsSlice";
+import {
+  fetchPosts,
+  fetchPostsByViews,
+  fetchTags,
+} from "../../redux/slices/postsSlice";
 import Post from "../../components/Post";
 import styles from "./HomePage.module.scss";
 import { fetchLastComments } from "../../redux/slices/commentsSlice";
+import queryString from "query-string";
+import { useLocation, useNavigate } from "react-router-dom";
+import classNames from "classnames";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const posts = useSelector((state) => state.posts.posts.items);
   const tags = useSelector((state) => state.posts.tags.items);
   const lastComs = useSelector((state) => state.comments.lastComs.items);
   const getAuth = useSelector((state) => state.auth.data);
+  const { tag } = queryString.parse(location.search);
+  const [sortType, setSortType] = useState("latest");
   useEffect(() => {
-    dispatch(fetchPosts());
+    if (sortType === "latest") {
+      dispatch(fetchPosts(tag));
+    } else if (sortType === "popularest") {
+      dispatch(fetchPostsByViews(tag));
+    }
+
     dispatch(fetchTags());
     dispatch(fetchLastComments());
-  }, []);
+  }, [tag, sortType, dispatch]);
+
+  const handleSelectTag = (selectedTag) => {
+    if (tag === selectedTag) {
+      navigate("/home");
+    } else {
+      navigate(`/home?tag=${selectedTag}`);
+    }
+  };
+
+  const handleSortByLatest = () => {
+    setSortType("latest");
+  };
+  const handleSortByViews = () => {
+    setSortType("popularest");
+  };
 
   console.log("Last", lastComs);
   console.log("get AU", getAuth);
   return (
     <>
-      <h1>Hello kвфвыitty</h1>
+      <div className={styles.filter}>
+        <button
+          onClick={handleSortByLatest}
+          className={classNames(sortType == "latest" ? styles.active : "")}
+        >
+          Latest
+        </button>
+        <button
+          onClick={handleSortByViews}
+          className={classNames(sortType == "popularest" ? styles.active : "")}
+        >
+          Popularest
+        </button>
+      </div>
       <div className={styles.wrapper}>
         <main>
           {posts.map((obj) => (
@@ -42,11 +86,21 @@ const HomePage = () => {
         </main>
         <aside className={styles.sidebar}>
           <article className={styles.tags}>
-            <h2>Tags</h2>
+            <h2 style={{ padding: "0 20px" }}>Tags</h2>
             <ul className={styles.tags__list}>
               {tags.map((obj, index) => (
-                <li key={index} className="tags-list__item">
-                  {obj}
+                <li
+                  key={index}
+                  className={classNames(
+                    styles.tags__list__item,
+                    obj === tag ? styles.tags__list__item__active : ""
+                  )}
+                  onClick={() => handleSelectTag(obj)}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <span className={styles.tag}>{obj}</span>
                 </li>
               ))}
             </ul>

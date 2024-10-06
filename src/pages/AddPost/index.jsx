@@ -1,8 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import axios from "../../axios.js";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isAuthSelector } from "../../redux/slices/authSlice.js";
+import styles from "./AddPost.module.scss";
+import classNames from "classnames";
+import "easymde/dist/easymde.min.css";
+import SimpleMDE from "react-simplemde-editor";
 
 const AddPost = () => {
   const isAuth = useSelector(isAuthSelector);
@@ -53,6 +63,24 @@ const AddPost = () => {
     }
   };
 
+  const handleChangeText = useCallback((event) => {
+    setText(event);
+  }, []);
+
+  const options = useMemo(
+    () => ({
+      spellChecker: false,
+      maxHeight: "400px",
+      autofocus: true,
+      placeholder: "Type text...",
+      status: false,
+      autosave: {
+        enabled: true,
+        delay: 1000,
+      },
+    }),
+    []
+  );
   useEffect(() => {
     if (id) {
       axios
@@ -75,7 +103,7 @@ const AddPost = () => {
   // console.log(isAuth);
 
   return (
-    <div>
+    <div className={styles.container}>
       <input
         ref={inputFileRef}
         type="file"
@@ -84,32 +112,63 @@ const AddPost = () => {
       />
       {imageUrl ? (
         <>
-          <img src={`http://localhost:4444${imageUrl}`} />
-          <button onClick={handleDeleteImg}>Delete Img</button>
+          <img
+            className={styles.img__banner}
+            src={`http://localhost:4444${imageUrl}`}
+          />
+          <button
+            className={classNames(styles.img__button, styles.img__delete)}
+            onClick={handleDeleteImg}
+          >
+            Delete Img
+          </button>
         </>
       ) : (
-        <button onClick={() => inputFileRef.current.click()}>Add Image</button>
+        <button
+          className={styles.img__button}
+          onClick={() => inputFileRef.current.click()}
+        >
+          Add Image
+        </button>
       )}
 
       <input
+        className={classNames(styles.input, styles.title)}
         type="text"
-        placeholder="Title"
+        placeholder="Title of post..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <input
+        className={classNames(styles.input, styles.tags)}
         type="text"
         placeholder="Tags"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
-      <input
+      {/* <textarea
+        className={classNames(styles.text, styles.text__content)}
         type="text"
         placeholder="Text"
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        // onChange={(e) => setText(e.target.value)}
+        onChange={(e) => handleChangeText(e)}
+      /> */}
+      <SimpleMDE
+        className={styles.editor}
+        value={text}
+        onChange={handleChangeText}
+        options={options}
       />
-      <button onClick={onSubmit}>Add post</button>
+      {isEditable ? (
+        <button className={styles.button__submit} onClick={onSubmit}>
+          Update Post
+        </button>
+      ) : (
+        <button className={styles.button__submit} onClick={onSubmit}>
+          Add post
+        </button>
+      )}
     </div>
   );
 };

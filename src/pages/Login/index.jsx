@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchAuth, isAuthSelector } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(isAuthSelector);
-  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     email: "ns@gmail.com",
     password: "123123",
@@ -31,7 +30,7 @@ const Login = () => {
     });
     const data = await dispatch(fetchAuth(formValues));
 
-    if (data.payload.errors) {
+    if (data.payload?.errors) {
       const errors = {};
       data.payload.errors.forEach((error) => {
         errors[error.path] = error.msg;
@@ -47,19 +46,13 @@ const Login = () => {
 
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
-    } else {
-      alert("errrrr");
     }
   };
   console.log(formErrors);
+  console.log("IS AUTH", isAuth);
 
-  useEffect(() => {
-    if (isAuth) {
-      navigate("/home");
-    }
-  }, []);
   if (isAuth) {
-    navigate("/home");
+    return <Navigate to={"/home"} />;
   }
 
   return (

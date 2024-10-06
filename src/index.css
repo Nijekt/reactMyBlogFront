@@ -16,3 +16,21 @@ body {
 button {
   border: medium none;
 }
+
+a {
+  color: inherit;
+}
+
+i,
+em {
+  font-style: italic;
+}
+
+strong,
+b {
+  font-weight: bold;
+}
+
+del {
+  text-decoration: line-through;
+}

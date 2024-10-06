@@ -56,15 +56,18 @@ const authSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(fetchAuth.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.status = "loaded";
+      if (action.payload.token) {
+        state.data = action.payload;
+        state.status = "loaded";
+      } else {
+        state.data = null;
+        state.status = "error";
+      }
     });
     builder.addCase(fetchAuth.rejected, (state, action) => {
-      state.data = null;
       state.status = "error";
     });
     builder.addCase(fetchAuthMe.pending, (state) => {
-      state.data = null;
       state.status = "loading";
     });
     builder.addCase(fetchAuthMe.fulfilled, (state, action) => {
@@ -72,7 +75,6 @@ const authSlice = createSlice({
       state.status = "loaded";
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
-      state.data = null;
       state.status = "error";
     });
   },
