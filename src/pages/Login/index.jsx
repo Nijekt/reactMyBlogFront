@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { fetchAuth, isAuthSelector } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import styles from "./Login.module.scss";
 
 const Login = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(isAuthSelector);
   const [formValues, setFormValues] = useState({
-    email: "ns@gmail.com",
-    password: "123123",
+    email: "",
+    password: "",
   });
   const [formErrors, setFormErrors] = useState({
     email: "",
@@ -56,32 +57,42 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h1>Create Acc</h1>
-      <form action="" onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            value={formValues.email}
-            onChange={handleChange}
-          />
-          {formErrors.email && <span>{formErrors.email}</span>}{" "}
-        </div>
+    <div className={styles.container}>
+      <div className={styles.form}>
+        <h1>Log In</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.input__wrapper}>
+            <input
+              placeholder="Email"
+              type="text"
+              name="email"
+              id="email"
+              value={formValues.email}
+              onChange={handleChange}
+            />
+            {formErrors.email && (
+              <span className={styles.error__message}>{formErrors.email}</span>
+            )}{" "}
+          </div>
 
-        <div>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={formValues.password}
-            onChange={handleChange}
-          />
-          {formErrors.password && <span>{formErrors.password}</span>}{" "}
-        </div>
-        <button type="submit">Sub</button>
-      </form>
+          <div className={styles.input__wrapper}>
+            <input
+              placeholder="Password"
+              type="password"
+              name="password"
+              id="password"
+              value={formValues.password}
+              onChange={handleChange}
+            />
+            {formErrors.password && (
+              <span className={styles.error__message}>
+                {formErrors.password}
+              </span>
+            )}{" "}
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
     </div>
   );
 };

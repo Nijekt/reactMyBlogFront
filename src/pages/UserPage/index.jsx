@@ -6,6 +6,8 @@ import styles from "./UserPage.module.scss";
 import Post from "../../components/Post";
 import axios from "../../axios.js";
 import plusImg from "../../assets/plus.svg";
+import UserPageSkeleton from "./UserPageSkeleton.jsx";
+import PostSkeleton from "../../components/Post/PostSkeleton.jsx";
 const UserPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -35,7 +37,12 @@ const UserPage = () => {
   };
 
   if (status === "loading") {
-    return <></>;
+    return (
+      <div className={styles.skeleton}>
+        <UserPageSkeleton />
+        <PostSkeleton />
+      </div>
+    );
   }
 
   return (
@@ -50,7 +57,7 @@ const UserPage = () => {
                 : "https://www.paintgarden.com/cdn/shop/products/B6B4B2.png?v=1658176231&width=533"
             }
             onClick={
-              user.userData._id === authData._id
+              user.userData._id === authData?._id
                 ? () => inputFileReF.current.click()
                 : () => alert("This is not your acc")
             }

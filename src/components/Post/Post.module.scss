@@ -88,43 +88,25 @@
         }
       }
     }
-    // .tags,
-    // .title,
-    // .date {
-    //   margin-bottom: 5px;
-    // }
-    // .user__img {
-    //   width: 30px;
-    //   height: 30px;
-    //   border-radius: 50%;
-    // }
-    // .wrapper {
-    //   display: flex;
-    //   gap: 10px;
-    //   align-items: center;
-    // }
-    // .counters {
-    //   display: flex;
-    //   gap: 20px;
-    //   color: #9b9b9b;
-
-    //   span {
-    //     display: flex;
-    //     gap: 5px;
-    //   }
-    //   .nums {
-    //     font-size: 12px;
-    //     font-weight: 700;
-    //   }
-    //   .icon {
-    //     width: 16px;
-    //     height: auto;
-    //   }
-    // }
   }
   &:hover {
     .post__edit {
       opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    & {
+      width: 500px;
+    }
+
+    &__info {
+      column-gap: 20px;
+    }
+  }
+  @media screen and (max-width: 540px) {
+    & {
+      width: 300px;
     }
   }
 }

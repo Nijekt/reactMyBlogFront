@@ -8,6 +8,7 @@ import crossImg from "../../assets/cross.svg";
 import editImg from "../../assets/edit.svg";
 import { removePost } from "../../redux/slices/postsSlice";
 import { useDispatch } from "react-redux";
+import PostSkeleton from "./PostSkeleton";
 
 const Post = ({
   title,
@@ -20,11 +21,17 @@ const Post = ({
   id,
   isEditable,
   user,
+  isLoading,
 }) => {
   const dispatch = useDispatch();
   const handleRemovePost = () => {
     dispatch(removePost(id));
   };
+  console.log(isLoading);
+
+  if (isLoading) {
+    return <PostSkeleton />;
+  }
 
   return (
     <div className={styles.post}>

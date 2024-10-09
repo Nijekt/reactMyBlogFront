@@ -34,3 +34,7 @@ b {
 del {
   text-decoration: line-through;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

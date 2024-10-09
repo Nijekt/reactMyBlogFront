@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPosts,
@@ -11,13 +11,16 @@ import { fetchLastComments } from "../../redux/slices/commentsSlice";
 import queryString from "query-string";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
+import SideBar from "../../components/SideBar";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const posts = useSelector((state) => state.posts.posts.items);
-  const tags = useSelector((state) => state.posts.tags.items);
+  const { items: posts, status } = useSelector((state) => state.posts.posts);
+  const { items: tags, status: tagsStatus } = useSelector(
+    (state) => state.posts.tags
+  );
   const lastComs = useSelector((state) => state.comments.lastComs.items);
   const getAuth = useSelector((state) => state.auth.data);
   const { tag } = queryString.parse(location.search);
@@ -33,13 +36,16 @@ const HomePage = () => {
     dispatch(fetchLastComments());
   }, [tag, sortType, dispatch]);
 
-  const handleSelectTag = (selectedTag) => {
-    if (tag === selectedTag) {
-      navigate("/home");
-    } else {
-      navigate(`/home?tag=${selectedTag}`);
-    }
-  };
+  const handleSelectTag = useCallback(
+    (selectedTag) => {
+      if (tag === selectedTag) {
+        navigate("/home");
+      } else {
+        navigate(`/home?tag=${selectedTag}`);
+      }
+    },
+    [tag]
+  );
 
   const handleSortByLatest = () => {
     setSortType("latest");
@@ -47,6 +53,11 @@ const HomePage = () => {
   const handleSortByViews = () => {
     setSortType("popularest");
   };
+  console.log("STATUS", status);
+
+  const isPostsLoading = status == "loading";
+
+  console.log(isPostsLoading);
 
   console.log("Last", lastComs);
   console.log("get AU", getAuth);
@@ -68,65 +79,34 @@ const HomePage = () => {
       </div>
       <div className={styles.wrapper}>
         <main>
-          {posts.map((obj) => (
-            <Post
-              key={obj._id}
-              id={obj._id}
-              title={obj.title}
-              text={obj.text}
-              tags={obj.tags}
-              viewsCount={obj.viewsCount}
-              commentsCount={obj.commentsCount}
-              createdAt={obj.createdAt}
-              user={obj.user}
-              imageUrl={`http://localhost:4444${obj.imageUrl}`}
-              isEditable={getAuth?._id === obj?.user._id}
-            />
-          ))}
+          {isPostsLoading
+            ? Array.from({ length: 5 }).map((_, index) => (
+                <Post key={index} isLoading={true} />
+              ))
+            : posts.map((obj) => (
+                <Post
+                  key={obj._id}
+                  id={obj._id}
+                  title={obj.title}
+                  text={obj.text}
+                  tags={obj.tags}
+                  viewsCount={obj.viewsCount}
+                  commentsCount={obj.commentsCount}
+                  createdAt={obj.createdAt}
+                  user={obj.user}
+                  imageUrl={`http://localhost:4444${obj.imageUrl}`}
+                  isEditable={getAuth?._id === obj?.user._id}
+                  isLoading={false}
+                />
+              ))}
         </main>
         <aside className={styles.sidebar}>
-          <article className={styles.tags}>
-            <h2 style={{ padding: "0 20px" }}>Tags</h2>
-            <ul className={styles.tags__list}>
-              {tags.map((obj, index) => (
-                <li
-                  key={index}
-                  className={classNames(
-                    styles.tags__list__item,
-                    obj === tag ? styles.tags__list__item__active : ""
-                  )}
-                  onClick={() => handleSelectTag(obj)}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                >
-                  <span className={styles.tag}>{obj}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-
-          <article className={styles.comments}>
-            <h2>Comments</h2>
-            <ul className={styles.comments__list}>
-              {lastComs.map((obj, index) => (
-                <li key={index} className={styles.comments__list__item}>
-                  <img
-                    src={
-                      obj.user.avatarUrl
-                        ? `http://localhost:4444${obj.user.avatarUrl}`
-                        : "https://www.paintgarden.com/cdn/shop/products/B6B4B2.png?v=1658176231&width=533"
-                    }
-                    className={styles.user__img}
-                  />
-                  <div className="item__wrapper">
-                    <h5>{obj.user?.fullName}</h5>
-                    {obj.text}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </article>
+          <SideBar
+            tags={tags}
+            lastComs={lastComs}
+            handleSelectTag={handleSelectTag}
+            tag={tag}
+          />
         </aside>
       </div>
     </>

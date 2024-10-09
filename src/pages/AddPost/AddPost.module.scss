@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  width: 100%;
   padding: 20px;
   .img__banner {
     width: 100%;
@@ -67,5 +68,12 @@
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 405px) {
+    & {
+      width: 320px;
+      margin: 0 auto;
+    }
   }
 }

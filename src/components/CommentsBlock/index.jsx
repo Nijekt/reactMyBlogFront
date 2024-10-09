@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const CommentsBlock = () => {
   const { items, status } = useSelector((state) => state.comments.comments);
 
-  console.log(items);
+  // console.log(items);
   return (
     <div className={styles.comments__block}>
       <h2>Comments</h2>

@@ -97,10 +97,7 @@ const AddPost = () => {
 
   if (!isAuth) {
     return <Navigate to={"/login"} replace={true} />;
-    // navigate("/login");
   }
-
-  // console.log(isAuth);
 
   return (
     <div className={styles.container}>
@@ -146,14 +143,6 @@ const AddPost = () => {
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
-      {/* <textarea
-        className={classNames(styles.text, styles.text__content)}
-        type="text"
-        placeholder="Text"
-        value={text}
-        // onChange={(e) => setText(e.target.value)}
-        onChange={(e) => handleChangeText(e)}
-      /> */}
       <SimpleMDE
         className={styles.editor}
         value={text}

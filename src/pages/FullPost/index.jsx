@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import FullPostSkeleton from "./FullPostSkeleton.jsx";
 
 const FullPost = () => {
   const [data, setData] = useState("");
@@ -35,6 +36,10 @@ const FullPost = () => {
       }
     })();
   }, []);
+
+  if (isLoading) {
+    return <FullPostSkeleton />;
+  }
 
   return (
     <div className={styles.wrapper}>

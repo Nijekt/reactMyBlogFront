@@ -50,5 +50,12 @@
         padding: 10px;
       }
     }
+
+    @media screen and (max-width: 540px) {
+      & {
+        flex-direction: column;
+        row-gap: 15px;
+      }
+    }
   }
 }
